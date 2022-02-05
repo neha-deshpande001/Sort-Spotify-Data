@@ -5,7 +5,7 @@ Created by Neha Deshpande on 2/4/2022
 ## Instructions for use:
 
 1. Download your Spotify data here: https://support.spotify.com/us/article/data-rights-and-privacy-settings/
-2. Move `SortSongs.py` into the folder `\my_spotify_data\MyData\`
+2. Download `SortSongs.py` and move it into the folder `\my_spotify_data\MyData\`
 3. Run the following command from a terminal:
 
 ```
