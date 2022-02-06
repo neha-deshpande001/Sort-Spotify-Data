@@ -12,7 +12,7 @@ Created by Neha Deshpande on 2/4/2022
 python SortSongs.py
 ```
 
-Two new files will be created: `SortedSongs.txt` and `SortedArtists.txt`.
+Three new files will be created: `SortedSongs.txt`, `SortedArtists.txt`, and `SortedLikedSongs.txt`.
 
 `SortedSongs.txt` will be in the following format, with each line being a different song.
 ```
@@ -22,4 +22,8 @@ Number of times played  --  Song Name  --  Artist Name
 		
 ```
 Number of times played  --  Artist Name
+```
+`SortedLikedSongs.txt` displays the number of times each of the liked songs are played. It will be in the following format, with each line being a different artist. 
+```
+Number of times played  --  Song Name  --  Artist Name
 ```
