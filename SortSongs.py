@@ -7,20 +7,24 @@
 # Run the following command from a terminal:
 # 						python SortSongs.py
 # 
-# Two new files will be created - SortedSongs.txt and SortedArtists.txt.
+# Three new files will be created - SortedSongs.txt, SortedArtists.txt, and SortedLikedSongs.txt
 # 
 # SortedSongs.txt will be in the following format, with each line being a different song.
 # 				Number of times played  --  Song Name  --  Artist Name
 # 
 # SortedArtists.txt will be in the following format, with each line being a different artist.
 # 				Number of times played  --  Artist Name
+#
+# SortedLikedSongs.txt displays the number of times each of the liked songs are played. It
+# will be in the following format, with each line being a different artist. 
+# 				Number of times played  --  Song Name  --  Artist Name
 
 
 
 import json
 
 # add song and artist data to dictionaries
-def sortData(fileName, allSongs, allArtists):
+def sortData(fileName, allSongs, allArtists, likedSongs):
 	file = open(fileName, encoding="utf8")
 	data = json.load(file)
 	file.close()
@@ -32,6 +36,9 @@ def sortData(fileName, allSongs, allArtists):
 		else:
 			allSongs[song] = 1
 
+		if song in likedSongs:
+			likedSongs[song] += 1
+
 		artist = i['artistName']
 		if artist in allArtists:
 			allArtists[artist] += 1
@@ -41,21 +48,41 @@ def sortData(fileName, allSongs, allArtists):
 # add songs to dictionary
 allSongs = {}
 allArtists = {}
-sortData('StreamingHistory0.json',allSongs, allArtists)
-sortData('StreamingHistory1.json',allSongs, allArtists)
+likedSongs = {}
+
+# make a list of all liked songs
+file = open('YourLibrary.json')
+data = json.load(file)
+file.close()
+for i in data['tracks']:
+	song = (i['track'], i['artist'])
+	likedSongs[song] = 0
+
+sortData('StreamingHistory0.json',allSongs, allArtists, likedSongs)
+sortData('StreamingHistory1.json',allSongs, allArtists, likedSongs)
 
 # sort dictionary in descending order by value
 allSongs = dict(sorted(allSongs.items(), reverse=True, key=lambda item: item[1]))
 allArtists = dict(sorted(allArtists.items(), reverse=True, key=lambda item: item[1]))
+likedSongs = dict(sorted(likedSongs.items(), reverse=True, key=lambda item: item[1]))
+
 
 
 # write result to file
 output = open("SortedSongs.txt", "w", encoding="utf8")
+output.write("All Streamed Songs\n\n")
 for i in allSongs:
 	output.write(str(allSongs[i]) + "  --  " + i[0] + "  --  " + i[1] + "\n")
 output.close()
 
 output = open("SortedArtists.txt", "w", encoding="utf8")
+output.write("All Streamed Artists\n\n")
 for i in allArtists:
 	output.write(str(allArtists[i]) + "  --  " + i + "\n")
+output.close()
+
+output = open("SortedLikedSongs.txt", "w", encoding="utf8")
+output.write("All Liked Songs\n\n")
+for i in likedSongs:
+	output.write(str(likedSongs[i]) + "  --  " + i[0] + "  --  " + i[1] + "\n")
 output.close()
