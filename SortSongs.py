@@ -2,9 +2,9 @@
 # 
 # 						Instructions for use:
 # 
-# Download your Spotify data here: https://support.spotify.com/us/article/data-rights-and-privacy-settings/
-# Move this file (SortSongs.py) into the folder \my_spotify_data\MyData\
-# Run the following command from a terminal:
+# 1. Download your Spotify data here: https://support.spotify.com/us/article/data-rights-and-privacy-settings/
+# 2. Move this file (SortSongs.py) into the folder \my_spotify_data\MyData\
+# 3. Run the following command from a terminal:
 # 						python SortSongs.py
 # 
 # Three new files will be created - SortedSongs.txt, SortedArtists.txt, and SortedLikedSongs.txt
@@ -22,6 +22,7 @@
 import json
 import os
 import re
+import sys
 
 # add song and artist data to dictionaries
 def sortData(fileName, allSongs, allArtists, likedSongs):
@@ -90,3 +91,68 @@ output.write("All Liked Songs\n\n")
 for i in likedSongs:
 	output.write(str(likedSongs[i]) + "  --  " + i[0] + "  --  " + i[1] + "\n")
 output.close()
+
+
+print("Data added to SortedSongs.txt, SortedArtists.txt, and SortedLikedSongs.txt")
+
+# create bar graphs
+if len(sys.argv) >= 2 and sys.argv[1] == '-graph':
+    
+    # command line arg is how many songs/artists to display
+    numToDisplay = 5
+    if len(sys.argv) == 3 and sys.argv[2].isdigit():
+        numToDisplay = int(sys.argv[2])
+
+    print("Creating top " + str(numToDisplay) + " graphs!")
+
+    # import only if graphing
+    import matplotlib.pyplot as plt
+    from collections import Counter
+
+    # FIRST GRAPH
+    # keep track of songs
+    xSongs = []
+    ySongs = []
+    for i in Counter(allSongs).most_common(numToDisplay):
+        xSongs.append(i[0][0] + "\nby " + i[0][1])
+        ySongs.append(i[1])
+      
+    fig = plt.figure(figsize=(10,6))
+     
+    # create a bar plot
+    plt.bar(xSongs, ySongs, color ='crimson')
+    
+    plt.xlabel("Song", weight = 'bold')
+    plt.ylabel("Number of Listens", weight = 'bold')
+    plt.title("Your Top " + str(numToDisplay) + " Songs", weight='bold')
+
+    # add numbers to label each bar
+    for index, value in enumerate(ySongs):
+        plt.text(index, value * 1.01, str(value), ha="center")
+    plt.show()
+
+    # SECOND GRAPH
+    # keep track of artists
+    xArtists = []
+    yArtists = []
+    for i in Counter(allArtists).most_common(numToDisplay):
+        xArtists.append(i[0])
+        yArtists.append(i[1])
+      
+    fig = plt.figure(figsize=(10,6))
+     
+    # create a bar plot
+    plt.bar(xArtists, yArtists, color ='darkorchid')
+    
+    plt.xlabel("Artist", weight = 'bold')
+    plt.ylabel("Number of Listens", weight = 'bold')
+    plt.title("Your Top " + str(numToDisplay) + " Artists", weight='bold')
+
+    # add numbers to label each bar
+    for index, value in enumerate(yArtists):
+        plt.text(index, value * 1.01, str(value), ha="center")
+    plt.show()
+
+else:
+    print("Hint: try \'-graph #\' to visualize your top # songs and artists!")
+
