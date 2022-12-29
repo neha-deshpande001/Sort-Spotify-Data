@@ -6,6 +6,8 @@
 # 2. Move this file (SortSongs.py) into the folder \my_spotify_data\MyData\
 # 3. Run the following command from a terminal:
 # 						python SortSongs.py
+# To graph your top songs and artists, run the following. [Number] is how many you want to graph, default is 5:
+# 						python SortSongs.py -graph [Number]
 # 
 # Three new files will be created - SortedSongs.txt, SortedArtists.txt, and SortedLikedSongs.txt
 # 
