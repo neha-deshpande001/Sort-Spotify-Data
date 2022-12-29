@@ -105,8 +105,6 @@ if len(sys.argv) >= 2 and sys.argv[1] == '-graph':
     if len(sys.argv) == 3 and sys.argv[2].isdigit():
         numToDisplay = int(sys.argv[2])
 
-    print("Creating top " + str(numToDisplay) + " graphs!")
-
     # import only if graphing
     import matplotlib.pyplot as plt
     from collections import Counter
@@ -128,10 +126,11 @@ if len(sys.argv) >= 2 and sys.argv[1] == '-graph':
     plt.ylabel("Number of Listens", weight = 'bold')
     plt.title("Your Top " + str(numToDisplay) + " Songs", weight='bold')
 
+
     # add numbers to label each bar
     for index, value in enumerate(ySongs):
-        plt.text(index, value * 1.01, str(value), ha="center")
-    plt.show()
+        plt.text(index, value + ySongs[0] * 0.01, str(value), ha="center")
+    plt.savefig('SortedSongs.png')
 
     # SECOND GRAPH
     # keep track of artists
@@ -152,8 +151,9 @@ if len(sys.argv) >= 2 and sys.argv[1] == '-graph':
 
     # add numbers to label each bar
     for index, value in enumerate(yArtists):
-        plt.text(index, value * 1.01, str(value), ha="center")
-    plt.show()
+        plt.text(index, value + yArtists[0] * 0.01, str(value), ha="center")
+    plt.savefig('SortedArtists.png')
+    print("Top " + str(numToDisplay) + " graphs saved!")
 
 else:
     print("Hint: try \'-graph #\' to visualize your top # songs and artists!")
