@@ -19,9 +19,9 @@
 # will be in the following format, with each line being a different artist. 
 # 				Number of times played  --  Song Name  --  Artist Name
 
-
-
 import json
+import os
+import re
 
 # add song and artist data to dictionaries
 def sortData(fileName, allSongs, allArtists, likedSongs):
@@ -58,8 +58,12 @@ for i in data['tracks']:
 	song = (i['track'], i['artist'])
 	likedSongs[song] = 0
 
-sortData('StreamingHistory0.json',allSongs, allArtists, likedSongs)
-sortData('StreamingHistory1.json',allSongs, allArtists, likedSongs)
+# check which files in the current directory match this regex pattern
+# e.x. StreamingHistory0.json
+regex = re.compile("^(StreamingHistory[0-9]+\.json)$")
+for file in os.listdir(os.getcwd()):
+    if regex.match(file):
+        sortData(file, allSongs, allArtists, likedSongs)
 
 # sort dictionary in descending order by value
 allSongs = dict(sorted(allSongs.items(), reverse=True, key=lambda item: item[1]))
